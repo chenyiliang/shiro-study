@@ -21,5 +21,6 @@
 	</build>
 	<modules>
 		<module>shiro-study-chapter02</module>
+		<module>shiro-study-chapter03</module>
 	</modules>
 </project>
