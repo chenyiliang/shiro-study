@@ -27,5 +27,6 @@
 		<module>shiro-study-chapter06</module>
 		<module>shiro-study-chapter07</module>
 		<module>shiro-study-chapter08</module>
+		<module>shiro-study-chapter09</module>
 	</modules>
 </project>
