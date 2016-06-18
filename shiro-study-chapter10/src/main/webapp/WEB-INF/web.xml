@@ -18,7 +18,7 @@
 	</context-param>
 	<context-param>
 		<param-name>shiroConfigLocations</param-name>
-		<param-value>classpath:shiro.ini</param-value>
+		<param-value>classpath:shiro-web.ini</param-value>
 	</context-param>
 	<filter>
 		<filter-name>shiroFilter</filter-name>
@@ -28,5 +28,15 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<!-- <session-config> -->
+	<!-- 单位为分钟 -->
+	<!-- <session-timeout>30</session-timeout> -->
+	<!-- </session-config> -->
+
+	<error-page>
+		<exception-type>org.apache.shiro.session.InvalidSessionException</exception-type>
+		<location>/invalidSession.jsp</location>
+	</error-page>
 
 </web-app>
