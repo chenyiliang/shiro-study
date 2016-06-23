@@ -102,9 +102,10 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
+				/ = anon
 				/index.jsp = anon
-				/unauthorized.jsp = anon
 				/login.jsp = authc
+				/unauthorized.jsp = anon
 				/logout = logout
 				/** = user
 			</value>
