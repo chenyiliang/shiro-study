@@ -32,5 +32,6 @@
 		<module>shiro-study-chapter11</module>
 		<module>shiro-study-chapter12</module>
 		<module>shiro-study-chapter13</module>
+		<module>shiro-study-chapter14</module>
 	</modules>
 </project>
