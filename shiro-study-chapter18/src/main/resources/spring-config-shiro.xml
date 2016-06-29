@@ -107,6 +107,15 @@
 		<property name="rememberMeParam" value="rememberMe" />
 		<property name="loginUrl" value="/login" />
 	</bean>
+	
+	<bean id="kickoutSessionControlFilter" class="com.github.chenyiliang.shiro.chapter18.web.shiro.filter.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+        <property name="kickoutUrl" value="/login?kickout=1"/>
+    </bean>
 
 	<bean id="sysUserFilter"
 		class="com.github.chenyiliang.shiro.chapter18.web.shiro.filter.SysUserFilter" />
@@ -119,6 +128,7 @@
 			<util:map>
 				<entry key="authc" value-ref="formAuthenticationFilter" />
 				<entry key="sysUser" value-ref="sysUserFilter" />
+				<entry key="kickout" value-ref="kickoutSessionControlFilter"/>
 			</util:map>
 		</property>
 		<property name="filterChainDefinitions">
@@ -126,7 +136,7 @@
 				/login = authc
 				/logout = logout
 				/authenticated = authc
-				/** = user,sysUser
+				/** = kickout,user,sysUser
 			</value>
 		</property>
 	</bean>
