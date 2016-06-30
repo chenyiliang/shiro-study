@@ -99,17 +99,24 @@
 		<property name="arguments" ref="securityManager" />
 	</bean>
 
+	<bean id="sysUserFilter"
+		class="com.github.chenyiliang.shiro.chapter22.web.shiro.filter.SysUserFilter" />
+
 	<!-- 基于Form表单的身份验证过滤器 -->
 	<bean id="formAuthenticationFilter"
-		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+		class="com.github.chenyiliang.shiro.chapter22.jcaptcha.MyFormAuthenticationFilter">
 		<property name="usernameParam" value="username" />
 		<property name="passwordParam" value="password" />
 		<property name="rememberMeParam" value="rememberMe" />
-		<property name="loginUrl" value="/login" />
+		<property name="failureKeyAttribute" value="shiroLoginFailure" />
 	</bean>
 
-	<bean id="sysUserFilter"
-		class="com.github.chenyiliang.shiro.chapter22.web.shiro.filter.SysUserFilter" />
+	<bean id="jCaptchaValidateFilter"
+		class="com.github.chenyiliang.shiro.chapter22.jcaptcha.JCaptchaValidateFilter">
+		<property name="jcaptchaEbabled" value="true" />
+		<property name="jcaptchaParam" value="jcaptchaCode" />
+		<property name="failureKeyAttribute" value="shiroLoginFailure" />
+	</bean>
 
 	<!-- Shiro的Web过滤器 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -119,11 +126,14 @@
 			<util:map>
 				<entry key="authc" value-ref="formAuthenticationFilter" />
 				<entry key="sysUser" value-ref="sysUserFilter" />
+				<entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter" />
 			</util:map>
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/login = authc
+				/static/** = anon
+				/jcaptcha* = anon
+				/login = jCaptchaValidate,authc
 				/logout = logout
 				/authenticated = authc
 				/** = user,sysUser
