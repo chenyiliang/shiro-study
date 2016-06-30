@@ -1,6 +1,5 @@
 package com.github.chenyiliang.shiro.chapter19.web.controller;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +19,17 @@ public class OrganizationController {
 	@Autowired
 	private OrganizationService organizationService;
 
-	@RequiresPermissions("organization:view")
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
 		return "organization/index";
 	}
 
-	@RequiresPermissions("organization:view")
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
 	public String showTree(Model model) {
 		model.addAttribute("organizationList", organizationService.findAll());
 		return "organization/tree";
 	}
 
-	@RequiresPermissions("organization:create")
 	@RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.GET)
 	public String showAppendChildForm(@PathVariable("parentId") Long parentId, Model model) {
 		Organization parent = organizationService.findOne(parentId);
@@ -46,21 +42,18 @@ public class OrganizationController {
 		return "organization/appendChild";
 	}
 
-	@RequiresPermissions("organization:create")
 	@RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.POST)
 	public String create(Organization organization) {
 		organizationService.createOrganization(organization);
 		return "redirect:/organization/success";
 	}
 
-	@RequiresPermissions("organization:update")
 	@RequestMapping(value = "/{id}/maintain", method = RequestMethod.GET)
 	public String showMaintainForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("organization", organizationService.findOne(id));
 		return "organization/maintain";
 	}
 
-	@RequiresPermissions("organization:update")
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
 	public String update(Organization organization, RedirectAttributes redirectAttributes) {
 		organizationService.updateOrganization(organization);
@@ -68,7 +61,6 @@ public class OrganizationController {
 		return "redirect:/organization/success";
 	}
 
-	@RequiresPermissions("organization:delete")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 		organizationService.deleteOrganization(id);
@@ -76,7 +68,6 @@ public class OrganizationController {
 		return "redirect:/organization/success";
 	}
 
-	@RequiresPermissions("organization:update")
 	@RequestMapping(value = "/{sourceId}/move", method = RequestMethod.GET)
 	public String showMoveForm(@PathVariable("sourceId") Long sourceId, Model model) {
 		Organization source = organizationService.findOne(sourceId);
@@ -85,7 +76,6 @@ public class OrganizationController {
 		return "organization/move";
 	}
 
-	@RequiresPermissions("organization:update")
 	@RequestMapping(value = "/{sourceId}/move", method = RequestMethod.POST)
 	public String move(@PathVariable("sourceId") Long sourceId, @RequestParam("targetId") Long targetId) {
 		Organization source = organizationService.findOne(sourceId);
@@ -94,7 +84,6 @@ public class OrganizationController {
 		return "redirect:/organization/success";
 	}
 
-	@RequiresPermissions("organization:view")
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public String success() {
 		return "organization/success";

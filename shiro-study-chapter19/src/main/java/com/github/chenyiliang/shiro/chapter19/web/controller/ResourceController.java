@@ -1,6 +1,5 @@
 package com.github.chenyiliang.shiro.chapter19.web.controller;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +24,12 @@ public class ResourceController {
 		return Resource.ResourceType.values();
 	}
 
-	@RequiresPermissions("resource:view")
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model) {
 		model.addAttribute("resourceList", resourceService.findAll());
 		return "resource/list";
 	}
 
-	@RequiresPermissions("resource:create")
 	@RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.GET)
 	public String showAppendChildForm(@PathVariable("parentId") Long parentId, Model model) {
 		Resource parent = resourceService.findOne(parentId);
@@ -45,7 +42,6 @@ public class ResourceController {
 		return "resource/edit";
 	}
 
-	@RequiresPermissions("resource:create")
 	@RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.POST)
 	public String create(Resource resource, RedirectAttributes redirectAttributes) {
 		resourceService.createResource(resource);
@@ -53,7 +49,6 @@ public class ResourceController {
 		return "redirect:/resource";
 	}
 
-	@RequiresPermissions("resource:update")
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
 	public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("resource", resourceService.findOne(id));
@@ -61,7 +56,6 @@ public class ResourceController {
 		return "resource/edit";
 	}
 
-	@RequiresPermissions("resource:update")
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
 	public String update(Resource resource, RedirectAttributes redirectAttributes) {
 		resourceService.updateResource(resource);
@@ -69,7 +63,6 @@ public class ResourceController {
 		return "redirect:/resource";
 	}
 
-	@RequiresPermissions("resource:delete")
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 		resourceService.deleteResource(id);

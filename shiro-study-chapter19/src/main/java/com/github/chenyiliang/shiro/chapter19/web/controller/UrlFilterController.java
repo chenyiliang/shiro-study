@@ -8,73 +8,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.chenyiliang.shiro.chapter19.entity.Role;
-import com.github.chenyiliang.shiro.chapter19.service.ResourceService;
-import com.github.chenyiliang.shiro.chapter19.service.RoleService;
+import com.github.chenyiliang.shiro.chapter19.entity.UrlFilter;
+import com.github.chenyiliang.shiro.chapter19.service.UrlFilterService;
 
 @Controller
-@RequestMapping("/role")
-public class RoleController {
-
+@RequestMapping("/urlFilter")
+public class UrlFilterController {
 	@Autowired
-	private RoleService roleService;
-
-	@Autowired
-	private ResourceService resourceService;
+	private UrlFilterService urlFilterService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model) {
-		model.addAttribute("roleList", roleService.findAll());
-		return "role/list";
+		model.addAttribute("urlFilterList", urlFilterService.findAll());
+		return "urlFilter/list";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String showCreateForm(Model model) {
-		setCommonData(model);
-		model.addAttribute("role", new Role());
+		model.addAttribute("urlFilter", new UrlFilter());
 		model.addAttribute("op", "新增");
-		return "role/edit";
+		return "urlFilter/edit";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String create(Role role, RedirectAttributes redirectAttributes) {
-		roleService.createRole(role);
+	public String create(UrlFilter urlFilter, RedirectAttributes redirectAttributes) {
+		urlFilterService.createUrlFilter(urlFilter);
 		redirectAttributes.addFlashAttribute("msg", "新增成功");
-		return "redirect:/role";
+		return "redirect:/urlFilter";
 	}
 
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
 	public String showUpdateForm(@PathVariable("id") Long id, Model model) {
-		setCommonData(model);
-		model.addAttribute("role", roleService.findOne(id));
+		model.addAttribute("urlFilter", urlFilterService.findOne(id));
 		model.addAttribute("op", "修改");
-		return "role/edit";
+		return "urlFilter/edit";
 	}
 
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-	public String update(Role role, RedirectAttributes redirectAttributes) {
-		roleService.updateRole(role);
+	public String update(UrlFilter urlFilter, RedirectAttributes redirectAttributes) {
+		urlFilterService.updateUrlFilter(urlFilter);
 		redirectAttributes.addFlashAttribute("msg", "修改成功");
-		return "redirect:/role";
+		return "redirect:/urlFilter";
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String showDeleteForm(@PathVariable("id") Long id, Model model) {
-		setCommonData(model);
-		model.addAttribute("role", roleService.findOne(id));
+		model.addAttribute("urlFilter", urlFilterService.findOne(id));
 		model.addAttribute("op", "删除");
-		return "role/edit";
+		return "urlFilter/edit";
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
 	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-		roleService.deleteRole(id);
+		urlFilterService.deleteUrlFilter(id);
 		redirectAttributes.addFlashAttribute("msg", "删除成功");
-		return "redirect:/role";
+		return "redirect:/urlFilter";
 	}
-
-	private void setCommonData(Model model) {
-		model.addAttribute("resourceList", resourceService.findAll());
-	}
-
 }
